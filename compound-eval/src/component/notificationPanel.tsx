@@ -4,10 +4,8 @@ import './notificationPanel.css';
 import { notifications } from './sample-notifications.ts';
 
 // Pass prop 'notification: IUserNotification' later
-function NotificationObject(read) {
+function NotificationObject({ title, description, notificationDate }) {
     const [checked, setChecked] = React.useState(false);
-
-    console.log('sample notifications: ', notifications);
 
     // const notifications.map()
 
@@ -19,7 +17,7 @@ function NotificationObject(read) {
         <li className="notification-object">
             <div className="n-content">
                 <span className="n-header">
-                    <b>Title</b><i> - Date</i>
+                    <b>{title}</b><i> - {notificationDate}</i>
                 </span>
                 <div>Description</div>
             </div>
@@ -37,6 +35,17 @@ function NotificationObject(read) {
 export default function NotificationPanel() {
     const [value, setValue] = React.useState(0);
 
+    console.log('sample notifications: ', notifications);
+
+    const notificationList = notifications.map(item => 
+        <NotificationObject
+            key={item.userNotificationId}
+            title={item.title}
+            description={item.description}
+            notificationDate={item.notificationDate}
+        />    
+    );
+
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -49,7 +58,7 @@ export default function NotificationPanel() {
     };
 
     return (
-        <ul className="notification-panel">
+        <div className="notification-panel">
             <div className="p-header">
                 <span>Notifications</span>
                 
@@ -62,10 +71,9 @@ export default function NotificationPanel() {
                 />
             </div> */}
             <hr />
-            <div>
-                <NotificationObject />
-                <NotificationObject />
-            </div>
-        </ul>
+            <ul>
+                {notificationList}
+            </ul>
+        </div>
     );
 }
