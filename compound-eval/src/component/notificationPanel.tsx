@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './notificationPanel.css';
 import { notifications } from './sample-notifications.ts';
 
@@ -17,13 +17,20 @@ function formatDate(dateString: string): string {
 }
 
 // Individual Notifications
-function NotificationObject({ title, description, notificationDate, readBy }) {
-    const [checked, setChecked] = React.useState(false);
-    const [read, setRead] = React.useState(false);
+function NotificationObject({ id, title, description, notificationDate, readBy, onCheckBoxChange }) {
+    const [checked, setChecked] = useState(false);
+    const [read, setRead] = useState(false);
+
+    useEffect(() => {
+        // This will run every time a checkbox is changed
+        // You can perform actions or updates here
+        console.log(`Checkbox of ${title} changed!`);
+      }, [checked]);
 
     // Set checkbox state
-    const handleChecked = () => {
+    function onChecked() {
         setChecked(!checked);
+        onCheckBoxChange(id, checked);
     };
 
     const handleClick = () => {
@@ -54,7 +61,7 @@ function NotificationObject({ title, description, notificationDate, readBy }) {
                 <input
                     type="checkbox"
                     checked={checked}
-                    onChange={handleChecked}
+                    onChange={onChecked}
                 />
             </div>
         </li>
@@ -63,27 +70,32 @@ function NotificationObject({ title, description, notificationDate, readBy }) {
 
 // Notifications List
 export default function NotificationPanel() {
-    const [checked, setChecked] = React.useState(false);
-    const [listItems, setListItems] = React.useState([...notifications]);
-    const [unreadItems, setUnreadItems] = React.useState(notifications.length);
+    const [checkedGlobal, setCheckedGlobal] = useState(false);
+    const [checkedItems, setCheckedItems] = useState([]);
+    const [listItems, setListItems] = useState([...notifications]);
+    const [unreadItems, setUnreadItems] = useState(notifications.length);
 
-    const notificationList = notifications.map(item => 
-        <NotificationObject
-            key={item.userNotificationId}
-            title={item.title}
-            description={item.description}
-            notificationDate={item.notificationDate}
-            readBy={item.readByUserName}
-        />    
-    );
-
-    const handleChecked = () => {
-        setChecked(!checked);
+    const handleCheckboxChange = (id, checked) => {
+        console.log('selected notification: ', id);
+        if (checked) {
+            // Add checked item id to checkedItems list
+            // setCheckedItems([...checkedItems, id]);
+        } else {
+            // Check if already in checkedItems list
+            // If found, remove from list
+        }
+        // setChecked(!checked);
     };
 
+    useEffect(() => {
+        console.log('');
+    }, [listItems]);
+
     const checkAll = () => {
-        // Use hooks instead?
-        // notificationList.map(item => item.setChecked(checked))
+        // Look at check state of global checkbox
+        // If true, check and add all items to checkedItems and set checkedGlobal to true
+        // If false, remove all items from checkedItems and set checkedGlobal to false
+        setCheckedGlobal(!checkedGlobal);
     };
 
     return (
@@ -94,7 +106,7 @@ export default function NotificationPanel() {
                     : <i>Inbox ({unreadItems})</i>
                     }</span>
                 <div className="filler" />
-                {checked &&
+                {checkedItems.length > 0 &&
                     <div>
                         <button>Read</button>
                         <button>Unread</button>
@@ -105,19 +117,21 @@ export default function NotificationPanel() {
                 <div className="checkbox">
                     <input
                         type="checkbox"
-                        checked={checked}
-                        onChange={handleChecked}
+                        checked={checkedGlobal}
+                        onChange={checkAll}
                     />
                 </div>
             </div>
             <ul>
                 {listItems.map((item, index) => (
                     <NotificationObject
+                        id={item.userNotificationId}
                         key={index}
                         title={item.title}
                         description={item.description}
                         notificationDate={item.notificationDate}
                         readBy={item.readByUserName}
+                        onCheckBoxChange={handleCheckboxChange}
                     />    
                 ))}
             </ul>
