@@ -7,6 +7,7 @@
     margin-bottom: 10px;
     border-radius: 25px;
     display: flex;
+    outline: lightgray solid 2px;
 }
 
 .notification-object:hover {
@@ -56,6 +57,12 @@ b {
 
 p {
     margin: 0px;
+    font-style: italic;
+    font-size: medium;
+}
+
+ul {
+    padding-inline-start: 0;
 }
 
 .notification-panel {

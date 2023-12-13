@@ -32,7 +32,7 @@ function NotificationObject({ title, description, notificationDate }) {
                     <b>{title}</b>
                     <i>{formattedDate}</i>
                 </div>
-                <div>{description}</div>
+                <p>{description}</p>
             </div>
             <div className="n-read">
                 <input
