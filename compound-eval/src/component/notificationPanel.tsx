@@ -75,6 +75,7 @@ export default function NotificationPanel() {
     const [checkedItems, setCheckedItems] = useState<number[]>([]);
     const [listItems, setListItems] = useState<IUserNotification[]>([...notifications]);
     const [unreadItems, setUnreadItems] = useState(notifications.length);
+    const [archivedItems, setArchivedItems] = useState<IUserNotification[]>([]);
 
     const handleCheckboxChange = (id, checked) => {
         console.log('selected notification: ', id, ', ', checked);
@@ -107,6 +108,7 @@ export default function NotificationPanel() {
     const checkAll = () => {
         // Need to check the opposite; since it's not checked yet
         // Need to set checkboxes in notificationObjects to true/false
+        //  useEffect could be used for this?
         if (!checkedGlobal) {
             setCheckedGlobal(true);
             const listItemIds = listItems.map(({userNotificationId}) => userNotificationId);
@@ -129,6 +131,16 @@ export default function NotificationPanel() {
     const markArchived = () => {
         // Mark selected notifications as archived
         // Make sure they're removed from the list!
+        const itemsToArchive = checkedItems.map(id => listItems.filter(listItem => listItem.userNotificationId === id)[0]);
+        console.log('items to archive: ', itemsToArchive);
+        setArchivedItems([
+            ...archivedItems,
+            ...itemsToArchive,
+        ]);
+        setListItems([
+            ...listItems.filter(listItem => !checkedItems.find((checkItem) => checkItem === listItem.userNotificationId)),
+        ]);
+        setCheckedItems([]);
     };
 
     return (
@@ -141,9 +153,9 @@ export default function NotificationPanel() {
                 <div className="filler" />
                 {checkedItems.length > 0 &&
                     <div>
-                        <button>Read</button>
-                        <button>Unread</button>
-                        <button>Archive</button>
+                        <button onClick={markRead}>Read</button>
+                        <button onClick={markUnread}>Unread</button>
+                        <button onClick={markArchived}>Archive</button>
                     </div>
 
                 }
