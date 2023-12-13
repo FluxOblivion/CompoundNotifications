@@ -92,7 +92,7 @@ export default function NotificationPanel() {
             const inList = checkedItems.find(item => item === id);
             if (inList) {
                 console.log('removing checked item');
-                setCheckedItems(checkedItems.filter(item => item === id));
+                setCheckedItems(checkedItems.filter(item => item !== id));
             } 
         }
         console.log('checkedItems: ', checkedItems);
