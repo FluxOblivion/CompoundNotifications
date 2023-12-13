@@ -11,17 +11,18 @@ function formatDate(dateString: string): string {
     const minutes = date.getMinutes().toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
-    const year = (date.getFullYear() + 1).toString().padStart(2, '0');
+    // const year = (date.getFullYear() + 1).toString().padStart(2, '0');
   
-    return `${hours}:${minutes} - ${day}/${month}/${year}`;
+    return `${hours}:${minutes} - ${day}/${month}`;
 }
 
+// Individual Notifications
 function NotificationObject({ title, description, notificationDate }) {
     const [checked, setChecked] = React.useState(false);
 
     const formattedDate = formatDate(notificationDate);
 
-    const handleChange = () => {
+    const handleChecked = () => {
         setChecked(!checked);
     };
 
@@ -38,17 +39,16 @@ function NotificationObject({ title, description, notificationDate }) {
                 <input
                     type="checkbox"
                     checked={checked}
-                    onChange={handleChange}
+                    onChange={handleChecked}
                 />
             </div>
         </li>
     );
 }
 
+// Notifications List
 export default function NotificationPanel() {
-    const [value, setValue] = React.useState(0);
-
-    console.log('sample notifications: ', notifications);
+    const [checked, setChecked] = React.useState(false);
 
     const notificationList = notifications.map(item => 
         <NotificationObject
@@ -63,11 +63,9 @@ export default function NotificationPanel() {
     const itemsUnread = notificationList.length;
 
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
+    const handleChecked = () => {
+        setChecked(!checked);
     };
-
-    const [checked, setChecked] = React.useState(false);
 
     const markAllRead = () => {
         setChecked(!checked);
@@ -77,16 +75,15 @@ export default function NotificationPanel() {
         <div className="notification-panel">
             <div className="p-header">
                 <span>Inbox ({itemsUnread})</span>
-                
+                <div className="filler" />
+                <div className="n-read">
+                    <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={handleChecked}
+                    />
+                </div>
             </div>
-            {/* <div className="p-read">
-                <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={markAllRead}
-                />
-            </div> */}
-            <hr />
             <ul>
                 {notificationList}
             </ul>
