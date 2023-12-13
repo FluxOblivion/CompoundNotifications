@@ -19,18 +19,29 @@ function formatDate(dateString: string): string {
 // Individual Notifications
 function NotificationObject({ title, description, notificationDate, readBy }) {
     const [checked, setChecked] = React.useState(false);
-    
-    const formattedDate = formatDate(notificationDate);
+    const [read, setRead] = React.useState(false);
 
+    // Set checkbox state
     const handleChecked = () => {
         setChecked(!checked);
     };
 
+    const handleClick = () => {
+        setRead(!read);
+        console.log(title, ' read:', read);
+    }
+
+    // Date needs a different format
+    const formattedDate = formatDate(notificationDate);
+
     return (
-        <li className="notification-object">
-            <div className="n-content">
+        <li className={`notification-object ${read ? "read" : ""}`}>
+            <div className="n-content" onClick={handleClick}>
                 <div className="n-header">
-                    <b>{title}</b>
+                    {!read
+                        ?  <b>{title}</b>
+                        : <i>{title}</i>
+                    }
                     <i>{formattedDate}</i>
                 </div>
                 <p>{description}</p>
@@ -38,7 +49,7 @@ function NotificationObject({ title, description, notificationDate, readBy }) {
                     <i>Seen by {readBy}</i>
                 }
             </div>
-            <div className="n-read">
+            <div className="checkbox">
                 <input
                     type="checkbox"
                     checked={checked}
@@ -72,7 +83,8 @@ export default function NotificationPanel() {
     };
 
     const markAllRead = () => {
-        setChecked(!checked);
+        // Use hooks instead?
+        // notificationList.map(item => item.setChecked(checked))
     };
 
     return (
@@ -80,7 +92,7 @@ export default function NotificationPanel() {
             <div className="p-header">
                 <span>Inbox ({itemsUnread})</span>
                 <div className="filler" />
-                <div className="n-read">
+                <div className="checkbox">
                     <input
                         type="checkbox"
                         checked={checked}
