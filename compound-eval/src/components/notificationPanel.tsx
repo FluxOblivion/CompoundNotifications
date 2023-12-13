@@ -6,7 +6,9 @@ import { formatDate } from '../utils/format-date.ts';
 
 // Individual Notification
 // Trouble typing parameters; 'cannot be used as a JSX component?'
-function NotificationObject({ id, title, description, notificationDate, readBy, onCheckBoxChange, checkedItems }) {
+function NotificationObject({ 
+    id, title, description, notificationDate, readBy, onCheckBoxChange, checkedItems
+}) {
     const [checked, setChecked] = useState(false);
     const [read, setRead] = useState(false);
 

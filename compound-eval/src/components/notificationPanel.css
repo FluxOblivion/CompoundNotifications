@@ -1,3 +1,4 @@
+/* NotificationObject */
 .notification-object {
     background-color: whitesmoke;
     min-width: 90%;
@@ -19,13 +20,6 @@
     cursor: default;
 }
 
-.checkbox {
-    width: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .n-content {
     width: 90%;
     display: flex;
@@ -34,7 +28,6 @@
 
 .n-header {
     margin: 0px;
-    /* margin-bottom: 10px; */
     width: 100%;
 }
 
@@ -47,6 +40,19 @@
 .n-header :last-child {
     color: gray;
     right: 0;
+}
+
+/* NotificationPanel */
+.notification-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 35vw;
+    max-width: 35vw;
+    min-height: 50vh;
+    margin: 2vh 5vw;
+    padding: 20px;
+    border-radius: 25px;
+    outline: lightgray solid 5px;
 }
 
 .p-header {
@@ -66,8 +72,16 @@
     margin-right: 20px;
 }
 
+/* General */
 .filler {
     flex-grow: 1;
+}
+
+.checkbox {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 input {
@@ -83,17 +97,4 @@ p {
 
 ul {
     padding-inline-start: 0;
-}
-
-.notification-panel {
-    display: flex;
-    flex-direction: column;
-    min-width: 35vw;
-    max-width: 35vw;
-    min-height: 50vh;
-    /* background-color: rgb(215, 215, 215); */
-    margin: 2vh 5vw;
-    padding: 20px;
-    border-radius: 25px;
-    outline: lightgray solid 5px;
 }
