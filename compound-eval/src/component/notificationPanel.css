@@ -5,7 +5,7 @@
     margin-bottom: 10px;
     border-radius: 25px;
     display: flex;
-    outline: lightgray solid 2px;
+    outline: gray solid 2px;
 }
 
 .notification-object:hover {
@@ -15,6 +15,7 @@
 
 .read {
     background-color: lightgray;
+    outline-color: lightgrey;
 }
 
 .checkbox {
