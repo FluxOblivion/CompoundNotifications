@@ -1,5 +1,5 @@
 import './App.css';
-import NotificationPanel from './component/notificationPanel.tsx';
+import NotificationPanel from './components/notificationPanel.tsx';
 
 function App() {
   return (

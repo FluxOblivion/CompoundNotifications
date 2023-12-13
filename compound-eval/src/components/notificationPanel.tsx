@@ -1,32 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import './notificationPanel.css';
 import { IUserNotification } from './notification.ts';
-import { notifications } from './sample-notifications.ts';
+import { notifications } from '../utils/sample-notifications.ts';
+import { formatDate } from '../utils/format-date.ts';
 
-function formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
-        return 'Invalid Date';
-    }
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
-    // const year = (date.getFullYear() + 1).toString().padStart(2, '0');
-  
-    return `${hours}:${minutes} - ${day}/${month}`;
-}
-
-// Individual Notifications
+// Individual Notification
 // Trouble typing parameters; 'cannot be used as a JSX component?'
-function NotificationObject({ id, title, description, notificationDate, readBy, onCheckBoxChange }) {
+function NotificationObject({ id, title, description, notificationDate, readBy, onCheckBoxChange, checkedItems }) {
     const [checked, setChecked] = useState(false);
     const [read, setRead] = useState(false);
 
     useEffect(() => {
-        // This will run every time a checkbox is changed
-        // console.log(`checkbox ${id} has been changed to ${checked}`);
-      }, [checked, id]);
+        const itemList = [...checkedItems]
+        if (itemList.find(item => item.id === id)) {
+            setChecked(true);
+            console.log('set checked for ', id, ': ', checked);
+        }
+      }, [id, checked, checkedItems]);
 
     // Set checkbox state
     function onChecked() {
@@ -74,35 +64,31 @@ export default function NotificationPanel() {
     const [checkedGlobal, setCheckedGlobal] = useState(false);
     const [checkedItems, setCheckedItems] = useState<number[]>([]);
     const [listItems, setListItems] = useState<IUserNotification[]>([...notifications]);
-    const [unreadItems, setUnreadItems] = useState(notifications.length);
+    const [unreadCount, setUnreadCount] = useState(notifications.length);
     const [archivedItems, setArchivedItems] = useState<IUserNotification[]>([]);
 
     const handleCheckboxChange = (id, checked) => {
-        console.log('selected notification: ', id, ', ', checked);
+        // console.log('selected notification: ', id, ', ', checked);
+        const inList = checkedItems.find(item => item === id);
         if (checked) {
             // Add checked item id to checkedItems list
             // Sort by id?
-            const inList = checkedItems.find(item => item === id);
             if (!inList) {
-                // console.log('adding checked item');
-                // setCheckedItems(checkedItems.concat(id));
+                setCheckedItems([...checkedItems, id]);
             }
-            setCheckedItems(checkedItems.concat(id));
+            // setCheckedItems(checkedItems.concat(id));
         } else {
             // Check if already in checkedItems list
             // If found, remove from list
-            const inList = checkedItems.find(item => item === id);
             if (inList) {
                 console.log('removing checked item');
                 setCheckedItems(checkedItems.filter(item => item !== id));
             } 
         }
-        console.log('checkedItems: ', checkedItems);
-        // setChecked(!checked);
     };
 
     useEffect(() => {
-        //...
+        setUnreadCount(listItems.length);
     }, [listItems]);
 
     const checkAll = () => {
@@ -131,14 +117,18 @@ export default function NotificationPanel() {
     const markArchived = () => {
         // Mark selected notifications as archived
         // Make sure they're removed from the list!
-        const itemsToArchive = checkedItems.map(id => listItems.filter(listItem => listItem.userNotificationId === id)[0]);
-        console.log('items to archive: ', itemsToArchive);
+        const itemsToArchive = checkedItems.map(id => listItems.filter(
+            listItem => listItem.userNotificationId === id)[0]
+        );
         setArchivedItems([
             ...archivedItems,
             ...itemsToArchive,
         ]);
         setListItems([
-            ...listItems.filter(listItem => !checkedItems.find((checkItem) => checkItem === listItem.userNotificationId)),
+            ...listItems.filter(
+                listItem => !checkedItems.find(
+                    (checkItem) => checkItem === listItem.userNotificationId)
+            ),
         ]);
         setCheckedItems([]);
     };
@@ -146,9 +136,9 @@ export default function NotificationPanel() {
     return (
         <div className="notification-panel">
             <div className="p-header">
-                <span>{unreadItems > 0
-                    ? <b>Inbox ({unreadItems})</b>
-                    : <i>Inbox ({unreadItems})</i>
+                <span>{unreadCount > 0
+                    ? <b>Inbox ({unreadCount})</b>
+                    : <i>Inbox ({unreadCount})</i>
                     }</span>
                 <div className="filler" />
                 {checkedItems.length > 0 &&
@@ -177,6 +167,7 @@ export default function NotificationPanel() {
                         notificationDate={item.notificationDate}
                         readBy={item.readByUserName}
                         onCheckBoxChange={handleCheckboxChange}
+                        checkedItems={checkedItems}
                     />    
                 ))}
             </ul>
