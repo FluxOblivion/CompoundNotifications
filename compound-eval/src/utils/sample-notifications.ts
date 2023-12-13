@@ -1,4 +1,4 @@
-import { IUserNotification } from "../components/notification";
+import { IUserNotification } from "./notification";
 
 export const notifications: IUserNotification[] = [
   {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './notificationPanel.css';
-import { IUserNotification } from './notification.ts';
+import { IUserNotification } from '../utils/notification.ts';
 import { notifications } from '../utils/sample-notifications.ts';
 import { formatDate } from '../utils/format-date.ts';
 
@@ -13,9 +13,12 @@ function NotificationObject({
     const [read, setRead] = useState(false);
 
     useEffect(() => {
-        const itemList = [...checkedItems];
-        if (itemList.find(item => item.id === id)) {
-            setChecked(true);
+        if (checkedItems.length > 0) {
+            if (checkedItems.some(item => item === id)) {
+                setChecked(true);
+            }
+        } else {
+            setChecked(false);
         }
       }, [id, checked, checkedItems]);
 
@@ -94,6 +97,7 @@ export default function NotificationPanel() {
             setCheckedGlobal(true);
             const listItemIds = listItems.map(({userNotificationId}) => userNotificationId);
             setCheckedItems(listItemIds);
+            console.log('selected all checked items: ', listItemIds);
         } else {
             setCheckedGlobal(false);
             setCheckedItems([]);
