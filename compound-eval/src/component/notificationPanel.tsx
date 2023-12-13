@@ -55,6 +55,7 @@ export default function NotificationPanel() {
                     onChange={markAllRead}
                 />
             </div> */}
+            <hr />
             <div>
                 <NotificationObject />
                 <NotificationObject />
