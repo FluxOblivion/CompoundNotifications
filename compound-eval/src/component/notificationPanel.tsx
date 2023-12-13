@@ -23,9 +23,8 @@ function NotificationObject({ id, title, description, notificationDate, readBy, 
 
     useEffect(() => {
         // This will run every time a checkbox is changed
-        // You can perform actions or updates here
-        console.log(`Checkbox of ${title} changed!`);
-      }, [checked]);
+        console.log(`checkbox ${id} has been changed to ${checked}`);
+      }, [checked, id]);
 
     // Set checkbox state
     function onChecked() {
@@ -88,7 +87,7 @@ export default function NotificationPanel() {
     };
 
     useEffect(() => {
-        console.log('');
+        //...
     }, [listItems]);
 
     const checkAll = () => {
