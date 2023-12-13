@@ -17,6 +17,7 @@ function formatDate(dateString: string): string {
 }
 
 // Individual Notifications
+// Trouble typing parameters; 'cannot be used as a JSX component?'
 function NotificationObject({ id, title, description, notificationDate, readBy, onCheckBoxChange }) {
     const [checked, setChecked] = useState(false);
     const [read, setRead] = useState(false);
@@ -29,7 +30,7 @@ function NotificationObject({ id, title, description, notificationDate, readBy, 
     // Set checkbox state
     function onChecked() {
         setChecked(!checked);
-        onCheckBoxChange(id, checked);
+        onCheckBoxChange(id, !checked);
     };
 
     const handleClick = () => {
@@ -75,14 +76,26 @@ export default function NotificationPanel() {
     const [unreadItems, setUnreadItems] = useState(notifications.length);
 
     const handleCheckboxChange = (id, checked) => {
-        console.log('selected notification: ', id);
+        console.log('selected notification: ', id, ', ', checked);
         if (checked) {
             // Add checked item id to checkedItems list
-            // setCheckedItems([...checkedItems, id]);
+            // Sort by id?
+            const inList = checkedItems.find(item => item === id);
+            if (!inList) {
+                // console.log('adding checked item');
+                // setCheckedItems(checkedItems.concat(id));
+            }
+            setCheckedItems(checkedItems.concat(id));
         } else {
             // Check if already in checkedItems list
             // If found, remove from list
+            const inList = checkedItems.find(item => item === id);
+            if (inList) {
+                console.log('removing checked item');
+                setCheckedItems(checkedItems.filter(item => item === id));
+            } 
         }
+        console.log('checkedItems: ', checkedItems);
         // setChecked(!checked);
     };
 
@@ -95,6 +108,19 @@ export default function NotificationPanel() {
         // If true, check and add all items to checkedItems and set checkedGlobal to true
         // If false, remove all items from checkedItems and set checkedGlobal to false
         setCheckedGlobal(!checkedGlobal);
+    };
+
+    const markRead = () => {
+        // Mark selected notifications as read 
+    };
+
+    const markUnread = () => {
+        // Mark selected notifications as unread
+    };
+
+    const markArchived = () => {
+        // Mark selected notifications as archived
+        // Make sure they're removed from the list!
     };
 
     return (
