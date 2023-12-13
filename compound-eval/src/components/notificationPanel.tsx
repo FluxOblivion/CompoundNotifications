@@ -14,7 +14,6 @@ function NotificationObject({ id, title, description, notificationDate, readBy, 
         const itemList = [...checkedItems];
         if (itemList.find(item => item.id === id)) {
             setChecked(true);
-            console.log('set checked for ', id, ': ', checked);
         }
       }, [id, checked, checkedItems]);
 
@@ -72,20 +71,14 @@ export default function NotificationPanel() {
     }, [listItems]);
 
     const handleCheckboxChange = (id, checked) => {
-        // console.log('selected notification: ', id, ', ', checked);
+        // Check if it's already in the checkedList
         const inList = checkedItems.find(item => item === id);
         if (checked) {
-            // Add checked item id to checkedItems list
-            // Sort by id?
             if (!inList) {
                 setCheckedItems([...checkedItems, id]);
             }
-            // setCheckedItems(checkedItems.concat(id));
         } else {
-            // Check if already in checkedItems list
-            // If found, remove from list
             if (inList) {
-                console.log('removing checked item');
                 setCheckedItems(checkedItems.filter(item => item !== id));
             } 
         }
@@ -103,7 +96,6 @@ export default function NotificationPanel() {
             setCheckedGlobal(false);
             setCheckedItems([]);
         }
-        console.log('checkedItems: ', checkedItems);
     };
 
     const markRead = () => {
@@ -115,8 +107,6 @@ export default function NotificationPanel() {
     };
 
     const markArchived = () => {
-        // Mark selected notifications as archived
-        // Make sure they're removed from the list!
         const itemsToArchive = checkedItems.map(id => listItems.filter(
             listItem => listItem.userNotificationId === id)[0]
         );
