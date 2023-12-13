@@ -1,13 +1,25 @@
 import React from 'react';
 import './notificationPanel.css';
-// import { IUserNotification } from './notification.ts';
 import { notifications } from './sample-notifications.ts';
 
-// Pass prop 'notification: IUserNotification' later
+function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        return 'Invalid Date';
+    }
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
+    const year = (date.getFullYear() + 1).toString().padStart(2, '0');
+  
+    return `${hours}:${minutes} - ${day}/${month}/${year}`;
+}
+
 function NotificationObject({ title, description, notificationDate }) {
     const [checked, setChecked] = React.useState(false);
 
-    // const notifications.map()
+    const formattedDate = formatDate(notificationDate);
 
     const handleChange = () => {
         setChecked(!checked);
@@ -16,10 +28,11 @@ function NotificationObject({ title, description, notificationDate }) {
     return (
         <li className="notification-object">
             <div className="n-content">
-                <span className="n-header">
-                    <b>{title}</b><i> - {notificationDate}</i>
-                </span>
-                <div>Description</div>
+                <div className="n-header">
+                    <b>{title}</b>
+                    <i>{formattedDate}</i>
+                </div>
+                <div>{description}</div>
             </div>
             <div className="n-read">
                 <input
@@ -46,6 +59,9 @@ export default function NotificationPanel() {
         />    
     );
 
+    // Temporary fill
+    const itemsUnread = notificationList.length;
+
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -60,7 +76,7 @@ export default function NotificationPanel() {
     return (
         <div className="notification-panel">
             <div className="p-header">
-                <span>Notifications</span>
+                <span>Inbox ({itemsUnread})</span>
                 
             </div>
             {/* <div className="p-read">
