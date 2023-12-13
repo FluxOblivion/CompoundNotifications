@@ -17,9 +17,9 @@ function formatDate(dateString: string): string {
 }
 
 // Individual Notifications
-function NotificationObject({ title, description, notificationDate }) {
+function NotificationObject({ title, description, notificationDate, readBy }) {
     const [checked, setChecked] = React.useState(false);
-
+    
     const formattedDate = formatDate(notificationDate);
 
     const handleChecked = () => {
@@ -34,6 +34,9 @@ function NotificationObject({ title, description, notificationDate }) {
                     <i>{formattedDate}</i>
                 </div>
                 <p>{description}</p>
+                {readBy &&
+                    <i>Seen by {readBy}</i>
+                }
             </div>
             <div className="n-read">
                 <input
@@ -56,6 +59,7 @@ export default function NotificationPanel() {
             title={item.title}
             description={item.description}
             notificationDate={item.notificationDate}
+            readBy={item.readByUserName}
         />    
     );
 

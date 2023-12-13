@@ -47,6 +47,7 @@
 
 .p-header :first-child {
     margin-left: 10px;
+    font-style: bold;
 }
 
 .p-header :last-child {
