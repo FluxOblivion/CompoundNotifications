@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './notificationPanel.css';
+import { IUserNotification } from './notification.ts';
 import { notifications } from './sample-notifications.ts';
 
 function formatDate(dateString: string): string {
@@ -71,8 +72,8 @@ function NotificationObject({ id, title, description, notificationDate, readBy, 
 // Notifications List
 export default function NotificationPanel() {
     const [checkedGlobal, setCheckedGlobal] = useState(false);
-    const [checkedItems, setCheckedItems] = useState([]);
-    const [listItems, setListItems] = useState([...notifications]);
+    const [checkedItems, setCheckedItems] = useState<number[]>([]);
+    const [listItems, setListItems] = useState<IUserNotification[]>([...notifications]);
     const [unreadItems, setUnreadItems] = useState(notifications.length);
 
     const handleCheckboxChange = (id, checked) => {
@@ -104,10 +105,17 @@ export default function NotificationPanel() {
     }, [listItems]);
 
     const checkAll = () => {
-        // Look at check state of global checkbox
-        // If true, check and add all items to checkedItems and set checkedGlobal to true
-        // If false, remove all items from checkedItems and set checkedGlobal to false
-        setCheckedGlobal(!checkedGlobal);
+        // Need to check the opposite; since it's not checked yet
+        // Need to set checkboxes in notificationObjects to true/false
+        if (!checkedGlobal) {
+            setCheckedGlobal(true);
+            const listItemIds = listItems.map(({userNotificationId}) => userNotificationId);
+            setCheckedItems(listItemIds);
+        } else {
+            setCheckedGlobal(false);
+            setCheckedItems([]);
+        }
+        console.log('checkedItems: ', checkedItems);
     };
 
     const markRead = () => {
