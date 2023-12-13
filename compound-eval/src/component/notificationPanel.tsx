@@ -24,7 +24,7 @@ function NotificationObject({ id, title, description, notificationDate, readBy, 
 
     useEffect(() => {
         // This will run every time a checkbox is changed
-        console.log(`checkbox ${id} has been changed to ${checked}`);
+        // console.log(`checkbox ${id} has been changed to ${checked}`);
       }, [checked, id]);
 
     // Set checkbox state
