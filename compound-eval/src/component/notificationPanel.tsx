@@ -27,8 +27,9 @@ function NotificationObject({ title, description, notificationDate, readBy }) {
     };
 
     const handleClick = () => {
-        setRead(!read);
-        console.log(title, ' read:', read);
+        if (!read) {
+            setRead(true);
+        }
     }
 
     // Date needs a different format
@@ -63,6 +64,7 @@ function NotificationObject({ title, description, notificationDate, readBy }) {
 // Notifications List
 export default function NotificationPanel() {
     const [checked, setChecked] = React.useState(false);
+    const [listItems, setListItems] = React.useState([...notifications]);
 
     const notificationList = notifications.map(item => 
         <NotificationObject
@@ -82,7 +84,7 @@ export default function NotificationPanel() {
         setChecked(!checked);
     };
 
-    const markAllRead = () => {
+    const checkAll = () => {
         // Use hooks instead?
         // notificationList.map(item => item.setChecked(checked))
     };
@@ -101,7 +103,15 @@ export default function NotificationPanel() {
                 </div>
             </div>
             <ul>
-                {notificationList}
+                {listItems.map((item, index) => (
+                    <NotificationObject
+                        key={index}
+                        title={item.title}
+                        description={item.description}
+                        notificationDate={item.notificationDate}
+                        readBy={item.readByUserName}
+                    />    
+                ))}
             </ul>
         </div>
     );

@@ -8,6 +8,7 @@ function App() {
         Notification Centre
       </header>
       <div className="App-body">
+      <i>NOTE: This page will only display notifications from the last 60 days.</i>
         <NotificationPanel />
       </div>
     </div>
