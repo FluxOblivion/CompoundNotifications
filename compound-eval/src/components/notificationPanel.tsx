@@ -11,7 +11,7 @@ function NotificationObject({ id, title, description, notificationDate, readBy, 
     const [read, setRead] = useState(false);
 
     useEffect(() => {
-        const itemList = [...checkedItems]
+        const itemList = [...checkedItems];
         if (itemList.find(item => item.id === id)) {
             setChecked(true);
             console.log('set checked for ', id, ': ', checked);
@@ -19,7 +19,7 @@ function NotificationObject({ id, title, description, notificationDate, readBy, 
       }, [id, checked, checkedItems]);
 
     // Set checkbox state
-    function onChecked() {
+    const onChecked = () => {
         setChecked(!checked);
         onCheckBoxChange(id, !checked);
     };
@@ -64,8 +64,12 @@ export default function NotificationPanel() {
     const [checkedGlobal, setCheckedGlobal] = useState(false);
     const [checkedItems, setCheckedItems] = useState<number[]>([]);
     const [listItems, setListItems] = useState<IUserNotification[]>([...notifications]);
-    const [unreadCount, setUnreadCount] = useState(notifications.length);
+    const [unreadCount, setUnreadCount] = useState<number>(notifications.length);
     const [archivedItems, setArchivedItems] = useState<IUserNotification[]>([]);
+
+    useEffect(() => {
+        setUnreadCount(listItems.length);
+    }, [listItems]);
 
     const handleCheckboxChange = (id, checked) => {
         // console.log('selected notification: ', id, ', ', checked);
@@ -86,10 +90,6 @@ export default function NotificationPanel() {
             } 
         }
     };
-
-    useEffect(() => {
-        setUnreadCount(listItems.length);
-    }, [listItems]);
 
     const checkAll = () => {
         // Need to check the opposite; since it's not checked yet
