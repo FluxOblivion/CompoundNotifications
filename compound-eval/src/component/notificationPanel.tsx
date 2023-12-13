@@ -1,10 +1,15 @@
 import React from 'react';
 import './notificationPanel.css';
 // import { IUserNotification } from './notification.ts';
+import { notifications } from './sample-notifications.ts';
 
 // Pass prop 'notification: IUserNotification' later
 function NotificationObject(read) {
     const [checked, setChecked] = React.useState(false);
+
+    console.log('sample notifications: ', notifications);
+
+    // const notifications.map()
 
     const handleChange = () => {
         setChecked(!checked);
@@ -31,6 +36,7 @@ function NotificationObject(read) {
 
 export default function NotificationPanel() {
     const [value, setValue] = React.useState(0);
+
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);

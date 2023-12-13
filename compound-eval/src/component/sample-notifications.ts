@@ -1,4 +1,6 @@
-const notifications: IUserNotification[] = [
+import { IUserNotification } from "./notification";
+
+export const notifications: IUserNotification[] = [
   {
     userNotificationId: 1,
     title: "Task: Clean Benches",

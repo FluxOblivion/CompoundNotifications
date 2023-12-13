@@ -15,7 +15,7 @@ export interface IUserNotification {
   notificationDate?: string;
 
   //link to page within application
-  notificationUrl?: number;
+  notificationUrl?: string;
   notificationImportance: INotificationImportance;
 
   createdDate?: string;
