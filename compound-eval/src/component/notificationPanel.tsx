@@ -94,6 +94,14 @@ export default function NotificationPanel() {
                     : <i>Inbox ({unreadItems})</i>
                     }</span>
                 <div className="filler" />
+                {checked &&
+                    <div>
+                        <button>Read</button>
+                        <button>Unread</button>
+                        <button>Archive</button>
+                    </div>
+
+                }
                 <div className="checkbox">
                     <input
                         type="checkbox"
