@@ -7,7 +7,13 @@ import { formatDate } from '../utils/format-date.ts';
 // Individual Notification
 // Trouble typing parameters; 'cannot be used as a JSX component?'
 function NotificationObject({ 
-    id, title, description, notificationDate, readBy, onCheckBoxChange, checkedItems
+    id,
+    title,
+    description,
+    notificationDate,
+    readBy,
+    onCheckBoxChange,
+    checkedItems
 }) {
     const [checked, setChecked] = useState(false);
     const [read, setRead] = useState(false);
@@ -105,7 +111,7 @@ export default function NotificationPanel() {
     };
 
     const markRead = () => {
-        // Mark selected notifications as read 
+        // Mark selected notifications as read
     };
 
     const markUnread = () => {
@@ -127,6 +133,8 @@ export default function NotificationPanel() {
             ),
         ]);
         setCheckedItems([]);
+        // Just in case all listItems were marked as archived
+        setCheckedGlobal(false);
     };
 
     return (
