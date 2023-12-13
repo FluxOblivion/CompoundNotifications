@@ -16,6 +16,7 @@
 .read {
     background-color: lightgray;
     outline-color: lightgrey;
+    cursor: default;
 }
 
 .checkbox {

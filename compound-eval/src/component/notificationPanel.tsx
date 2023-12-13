@@ -65,6 +65,7 @@ function NotificationObject({ title, description, notificationDate, readBy }) {
 export default function NotificationPanel() {
     const [checked, setChecked] = React.useState(false);
     const [listItems, setListItems] = React.useState([...notifications]);
+    const [unreadItems, setUnreadItems] = React.useState(notifications.length);
 
     const notificationList = notifications.map(item => 
         <NotificationObject
@@ -75,10 +76,6 @@ export default function NotificationPanel() {
             readBy={item.readByUserName}
         />    
     );
-
-    // Temporary fill
-    const itemsUnread = notificationList.length;
-
 
     const handleChecked = () => {
         setChecked(!checked);
@@ -92,7 +89,10 @@ export default function NotificationPanel() {
     return (
         <div className="notification-panel">
             <div className="p-header">
-                <span>Inbox ({itemsUnread})</span>
+                <span>{unreadItems > 0
+                    ? <b>Inbox ({unreadItems})</b>
+                    : <i>Inbox ({unreadItems})</i>
+                    }</span>
                 <div className="filler" />
                 <div className="checkbox">
                     <input
